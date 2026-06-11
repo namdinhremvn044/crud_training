@@ -10,7 +10,7 @@
             'title' => $book['title'],
             'author' => $book['author'] ?? 'N/A',
             'categories' => !empty($book['categories']) ? implode(', ', $book['categories']) : 'N/A',
-            'price' => number_format($book['price'], 2),
+            'price' => number_format($book['price'], 0, ',', '.') . ' đ',
             'publish_date' => $book['publish_date'] ? $book['publish_date']->format('d/m/Y') : 'N/A',
             'status' => $book['status'],
             'status_label' => $book['status'] === 'available' ? 'Có sẵn' : 'Đã hết',
@@ -32,6 +32,27 @@
             </div>
 
             <div class="overflow-x-auto">
+                <div id="filter-panel" class="row g-3 mb-3 d-none">
+                    <div class="col-md-4">
+                        <select id="filter-category" class="form-select">
+                            <option value="">Tất cả thể loại</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <select id="filter-author" class="form-select">
+                            <option value="">Tất cả tác giả</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <select id="filter-status" class="form-select">
+                            <option value="">Tất cả trạng thái</option>
+                            <option value="Có sẵn">Có sẵn</option>
+                            <option value="Đã hết">Đã hết</option>
+                        </select>
+                    </div>
+                </div>
                 <table id="books-table" class="table table-striped table-bordered w-full">
                     <thead>
                         <tr>
@@ -48,9 +69,9 @@
                         @foreach ($formattedBooks as $book)
                             <tr>
                                 <td>{{ $book['id'] }}</td>
+                                <td>{{ $book['categories'] }}</td>
                                 <td>{{ $book['title'] }}</td>
                                 <td>{{ $book['author'] }}</td>
-                                <td>{{ $book['categories'] }}</td>
                                 <td>{{ $book['price'] }}</td>
                                 <td>
                                     @if ($book['status_class'] === 'green')
@@ -77,7 +98,7 @@
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#books-table').DataTable({
+            const table = $('#books-table').DataTable({
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/vi.json'
                 },
@@ -86,13 +107,60 @@
                     [6, 'desc']
                 ],
                 initComplete: function() {
-                    $('.dataTables_filter').append(
-                        '<button type="button" class="btn btn-outline-secondary btn-sm ms-2" onclick="window.location.reload();">' +
-                        'Làm mới' +
-                        '</button>'
-                    );
+                    $('.dataTables_filter').append(`
+                        <button type="button"
+                            id="toggle-filter"
+                            class="btn btn-outline-primary btn-sm ms-2">
+                            Lọc
+                        </button>
+
+                        <button type="button"
+                            class="btn btn-outline-secondary btn-sm ms-2"
+                            onclick="window.location.reload();">
+                            Làm mới
+                        </button>
+                    `);
+
+                    [
+                        [1, '#filter-category'],
+                        [3, '#filter-author']
+                    ].forEach(([column, selector]) => {
+                        [...new Set(
+                            table.column(column)
+                                .data()
+                                .toArray()
+                                .flatMap(value => value.split(',').map(v => v.trim()))
+                        )]
+                        .sort()
+                        .forEach(value => {
+                            $(selector).append(
+                                `<option value="${value}">${value}</option>`
+                            );
+                        });
+                    });
                 }
             });
+
+            $(document).on('click', '#toggle-filter', function() {
+                $('#filter-panel').toggleClass('d-none');
+            });
+
+            $.fn.dataTable.ext.search.push(function(settings, data) {
+                const category = $('#filter-category').val();
+                const author = $('#filter-author').val();
+                const status = $('#filter-status').val();
+
+                return (
+                    (!category || data[1].includes(category)) &&
+                    (!author || data[3] === author) &&
+                    (!status || data[5].includes(status))
+                );
+            });
+
+            $('#filter-category, #filter-author, #filter-status')
+                .on('change', function() {
+                    table.draw();
+                });
         });
     </script>
 @endpush
