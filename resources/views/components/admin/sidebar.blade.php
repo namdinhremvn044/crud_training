@@ -6,6 +6,12 @@
             'icon' => 'home',
             'active' => request()->routeIs('admin.dashboard'),
         ],
+        [
+            'label' => 'Sách',
+            'route' => 'admin.book.list',
+            'icon' => 'book',
+            'active' => request()->routeIs('admin.book.*'),
+        ],
     ];
 @endphp
 
