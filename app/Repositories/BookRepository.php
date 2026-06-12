@@ -11,4 +11,12 @@ class BookRepository extends BaseRepository implements BookRepositoryInterface
     {
         parent::__construct($model);
     }
+
+    public function createWithCategories(array $attributes, array $categoryIds): Book
+    {
+        $book = $this->model->newQuery()->create($attributes);
+        $book->categories()->sync($categoryIds);
+
+        return $book->fresh(['author', 'categories']);
+    }
 }

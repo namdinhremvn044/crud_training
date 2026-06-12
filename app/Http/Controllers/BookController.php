@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BookRequest;
 use App\Services\Contracts\BookServiceInterface;
 use Illuminate\Http\Request;
 
@@ -19,5 +20,29 @@ class BookController extends Controller
             'header' => 'Danh sách sách',
             'books' => $books
         ]);
+    }
+
+    public function create()
+    {
+        $formData = $this->bookService->getCreateFormData();
+
+        return view('admin.book.create', [
+            'title' => 'Thêm mới sách',
+            'header' => 'Thêm mới sách',
+            'authors' => $formData['authors'],
+            'categories' => $formData['categories'],
+        ]);
+    }
+
+    public function store(BookRequest $request)
+    {
+        $this->bookService->create(
+            $request->validated(),
+            $request->file('cover_image')
+        );
+
+        return redirect()
+            ->route('admin.book.list')
+            ->with('success', 'Thêm sách mới thành công.');
     }
 }

@@ -1,14 +1,28 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin', fn () => view('admin.index', [
-    'title' => 'Tổng quan',
-    'header' => 'Tổng quan',
-]))->name('admin.dashboard');
+Route::prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::get(
+            '/',
+            fn() => view('admin.index', [
+                'title' => 'Tổng quan',
+                'header' => 'Tổng quan',
+            ]),
+        )->name('dashboard');
 
-Route::get('/admin/book/list', [App\Http\Controllers\BookController::class, 'list'])->name('admin.book.list');
+        Route::prefix('book')
+            ->name('book.')
+            ->group(function () {
+                Route::get('/list', [BookController::class, 'list'])->name('list');
+                Route::get('/create', [BookController::class, 'create'])->name('create');
+                Route::post('/store', [BookController::class, 'store'])->name('store');
+            });
+    });

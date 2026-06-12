@@ -7,10 +7,16 @@
             'active' => request()->routeIs('admin.dashboard'),
         ],
         [
-            'label' => 'Sách',
+            'label' => 'Quản lý sách',
             'route' => 'admin.book.list',
             'icon' => 'book',
-            'active' => request()->routeIs('admin.book.*'),
+            'active' => request()->routeIs('admin.book.list'),
+        ],
+        [
+            'label' => 'Thêm mới sách',
+            'route' => 'admin.book.create',
+            'icon' => '',
+            'active' => request()->routeIs('admin.book.create'),
         ],
     ];
 @endphp
