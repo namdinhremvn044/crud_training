@@ -19,4 +19,11 @@ class BookRepository extends BaseRepository implements BookRepositoryInterface
 
         return $book->fresh(['author', 'categories']);
     }
+
+    public function getBookDetail(int $id): Book
+    {
+        return $this->model->newQuery()
+            ->with(['author', 'categories'])
+            ->findOrFail($id);
+    }
 }

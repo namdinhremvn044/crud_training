@@ -70,7 +70,12 @@
                             <tr>
                                 <td>{{ $book['id'] }}</td>
                                 <td>{{ $book['categories'] }}</td>
-                                <td>{{ $book['title'] }}</td>
+                                <td>
+                                    <a href="{{ route('admin.book.detail', $book['id']) }}"
+                                        class="text-primary text-decoration-none fw-medium">
+                                        {{ $book['title'] }}
+                                    </a>
+                                </td>
                                 <td>{{ $book['author'] }}</td>
                                 <td>{{ $book['price'] }}</td>
                                 <td>

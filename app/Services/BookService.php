@@ -55,6 +55,11 @@ class BookService extends BaseService implements BookServiceInterface
         return $this->bookRepository->createWithCategories($attributes, $categoryIds);
     }
 
+    public function getBookDetail(int $id): Model
+    {
+        return $this->bookRepository->getBookDetail($id);
+    }
+
     protected function normalizeBookAttributes(array $data, ?UploadedFile $coverImage = null): array
     {
         $quantity = (int) $data['quantity'];
