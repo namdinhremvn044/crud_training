@@ -6,4 +6,8 @@ use Illuminate\Support\Collection;
 interface BookServiceInterface extends ServiceInterface
 {
     public function getList(): Collection;
+
+    public function getCreateFormData(): array;
+
+    public function create(array $data, $coverImage = null): \Illuminate\Database\Eloquent\Model;
 }
