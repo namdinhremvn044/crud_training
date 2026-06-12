@@ -22,6 +22,7 @@ Route::prefix('admin')
             ->name('book.')
             ->group(function () {
                 Route::get('/list', [BookController::class, 'list'])->name('list');
+                Route::get('/detail/{id}', [BookController::class, 'detail'])->name('detail');
                 Route::get('/create', [BookController::class, 'create'])->name('create');
                 Route::post('/store', [BookController::class, 'store'])->name('store');
             });

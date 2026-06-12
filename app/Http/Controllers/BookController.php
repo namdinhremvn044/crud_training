@@ -45,4 +45,15 @@ class BookController extends Controller
             ->route('admin.book.list')
             ->with('success', 'Thêm sách mới thành công.');
     }
+
+    public function detail(int $id)
+    {
+        $book = $this->bookService->getBookDetail($id);
+
+        return view('admin.book.detail', [
+            'title' => 'Chi tiết sách',
+            'header' => 'Chi tiết sách',
+            'book' => $book,
+        ]);
+    }
 }
