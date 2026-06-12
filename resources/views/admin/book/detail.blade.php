@@ -12,7 +12,8 @@
             ✏️ Chỉnh sửa
         </a>
 
-        <form method="POST" action="#">
+        <form action="{{ route('admin.book.delete', $book->id) }}"
+            method="POST"
             @csrf
             @method('DELETE')
             <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa sách này?')"

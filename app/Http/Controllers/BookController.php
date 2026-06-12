@@ -56,4 +56,13 @@ class BookController extends Controller
             'book' => $book,
         ]);
     }
+
+    public function delete(int $id)
+    {
+        $this->bookService->delete($id);
+
+        return redirect()
+            ->route('admin.book.list')
+            ->with('success', 'Xóa sách thành công.');
+    }
 }
