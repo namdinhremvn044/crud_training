@@ -63,6 +63,7 @@
                             <th class="text-left">Giá</th>
                             <th class="text-left">Trạng thái</th>
                             <th class="text-left">Ngày xuất bản</th>
+                            <th class="text-left">Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -88,6 +89,26 @@
                                     @endif
                                 </td>
                                 <td>{{ $book['publish_date'] }}</td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        {{-- <a href="{{ route('admin.book.edit', $book['id']) }}" --}}
+                                        <a href=""
+                                            class="btn btn-warning btn-sm">
+                                            ✏️
+                                        </a>
+
+                                        <form action="{{ route('admin.book.delete', $book['id']) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Bạn có chắc muốn xoá sách này?');">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                🗑️
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

@@ -25,5 +25,6 @@ Route::prefix('admin')
                 Route::get('/detail/{id}', [BookController::class, 'detail'])->name('detail');
                 Route::get('/create', [BookController::class, 'create'])->name('create');
                 Route::post('/store', [BookController::class, 'store'])->name('store');
+                Route::delete('/delete/{id}', [BookController::class, 'delete'])->name('delete');
             });
     });

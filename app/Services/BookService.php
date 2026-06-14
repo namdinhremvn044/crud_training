@@ -92,4 +92,15 @@ class BookService extends BaseService implements BookServiceInterface
 
         return 'books/' . $filename;
     }
+
+    public function delete(int $id): bool
+    {
+        $book = $this->repository->findOrFail($id);
+
+        if ($book->cover_image) {
+            Storage::disk('public')->delete($book->cover_image);
+        }
+
+        return (bool) $book->delete();
+    }
 }
