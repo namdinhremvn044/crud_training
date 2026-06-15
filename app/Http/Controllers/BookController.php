@@ -65,4 +65,31 @@ class BookController extends Controller
             ->route('admin.book.list')
             ->with('success', 'Xóa sách thành công.');
     }
+
+    public function edit(int $id)
+    {
+        $book = $this->bookService->getBookDetail($id);
+        $formData = $this->bookService->getCreateFormData();
+        
+        return view('admin.book.edit', [
+            'title' => 'Chỉnh sửa sách',
+            'header' => 'Chỉnh sửa sách',
+            'book' => $book,
+            'authors' => $formData['authors'],
+            'categories' => $formData['categories'],
+        ]);
+    }
+
+    public function update(BookRequest $request, int $id)
+    {
+        $this->bookService->update(
+            $id,
+            $request->validated(),
+            $request->file('cover_image')
+        );
+
+        return redirect()
+            ->route('admin.book.list')
+            ->with('success', 'Cập nhật sách thành công.');
+    }
 }
