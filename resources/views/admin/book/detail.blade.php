@@ -7,7 +7,7 @@
             class="inline-flex items-center rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">
             ← Quay lại </a>
 
-        <a href="#"
+        <a href="{{ route('admin.book.edit', $book['id']) }}"
             class="inline-flex items-center rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600">
             ✏️ Chỉnh sửa
         </a>

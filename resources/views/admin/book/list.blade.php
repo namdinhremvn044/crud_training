@@ -91,8 +91,7 @@
                                 <td>{{ $book['publish_date'] }}</td>
                                 <td>
                                     <div class="d-flex gap-2">
-                                        {{-- <a href="{{ route('admin.book.edit', $book['id']) }}" --}}
-                                        <a href=""
+                                        <a href="{{ route('admin.book.edit', $book['id']) }}"
                                             class="btn btn-warning btn-sm">
                                             ✏️
                                         </a>
@@ -130,7 +129,7 @@
                 },
                 pageLength: 10,
                 order: [
-                    [6, 'desc']
+                    [0, 'desc']
                 ],
                 initComplete: function() {
                     $('.dataTables_filter').append(`

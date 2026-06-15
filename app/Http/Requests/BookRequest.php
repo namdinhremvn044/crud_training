@@ -21,34 +21,24 @@ class BookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // ISBN bắt buộc và không được trùng
-            'isbn' => ['bail', 'required', 'string', 'max:255', Rule::unique('books', 'isbn')],
+            'isbn' => ['bail', 'required', 'string', 'max:255', Rule::unique('books', 'isbn')->ignore($this->route('id'))],
 
-            // Tên sách bắt buộc
             'title' => ['bail', 'required', 'string', 'max:255'],
 
-            // Tác giả bắt buộc
             'author_id' => ['bail', 'required', 'integer', 'exists:authors,id'],
 
-            // Giá sách phải lớn hơn 0
             'price' => ['bail', 'required', 'numeric', 'gt:0', 'decimal:0,2'],
 
-            // Số lượng phải >= 0
             'quantity' => ['bail', 'required', 'integer', 'min:0'],
 
-            // Ngày xuất bản không được lớn hơn ngày hiện tại
             'publish_date' => ['bail', 'required', 'date', 'before_or_equal:today'],
 
-            // Ảnh bìa không bắt buộc, JPEG/PNG, tối đa 5MB
-            'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpeg,webp', 'max:5120'],
+            'cover_image' => ['nullable', 'image', 'mimes:jpeg,jpg,png,gif,webp', 'max:5120'],
 
-            // Mô tả không bắt buộc
             'description' => ['nullable', 'string'],
 
-            // Trạng thái
             'status' => ['required', Rule::in(['available', 'unavailable'])],
 
-            // Phải chọn ít nhất 1 thể loại
             'categories' => ['required', 'array', 'min:1'],
 
             'categories.*' => ['integer', 'exists:categories,id'],

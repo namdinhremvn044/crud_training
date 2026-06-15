@@ -12,4 +12,6 @@ interface BookServiceInterface extends ServiceInterface
     public function create(array $data, $coverImage = null): \Illuminate\Database\Eloquent\Model;
 
     public function getBookDetail(int $id): \Illuminate\Database\Eloquent\Model;
+
+    public function update(int $id, array $data, $coverImage = null): \Illuminate\Database\Eloquent\Model;
 }

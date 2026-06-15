@@ -70,8 +70,8 @@ class BookService extends BaseService implements BookServiceInterface
             'author_id' => $data['author_id'],
             'price' => $data['price'],
             'quantity' => $quantity,
-            'borrowed_quantity' => 0,
-            'available_quantity' => $quantity,
+            'borrowed_quantity' => $data['borrowed_quantity'] ?? 0,
+            'available_quantity' => $data['available_quantity'] ?? $quantity,
             'publish_date' => $data['publish_date'],
             'description' => $data['description'] ?? null,
             'status' => $data['status'],
@@ -102,5 +102,21 @@ class BookService extends BaseService implements BookServiceInterface
         }
 
         return (bool) $book->delete();
+    }
+
+    public function update(int $id, array $data, $coverImage = null): Model
+    {
+        $book = $this->repository->findOrFail($id);
+
+        $categoryIds = $data['categories'];
+        unset($data['categories']);
+
+        $data['borrowed_quantity'] = $book->borrowed_quantity;
+
+        $data['available_quantity'] = $data['quantity'] - $book->borrowed_quantity;
+
+        $attributes = $this->normalizeBookAttributes($data, $coverImage);
+
+        return $this->bookRepository->updateWithCategories($id, $attributes, $categoryIds);
     }
 }
