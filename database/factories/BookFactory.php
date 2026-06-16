@@ -59,8 +59,7 @@ class BookFactory extends Factory
         return $this->afterCreating(function ($book) {
             $categoryIds = Category::query()
                 ->inRandomOrder()
-                ->limit(rand(1, 3))
-                ->pluck('id');
+                ->value('id');
 
             $book->categories()->sync(
                 $categoryIds

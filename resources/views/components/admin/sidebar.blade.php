@@ -17,6 +17,7 @@
             'route' => 'admin.book.create',
             'icon' => '',
             'active' => request()->routeIs('admin.book.create'),
+            'roles' => ['admin']
         ],
     ];
 @endphp
@@ -35,6 +36,10 @@
     <nav class="flex-1 space-y-1 overflow-y-auto p-4">
         @foreach ($navItems as $item)
             @if (Route::has($item['route']))
+                @continue(
+                    isset($item['roles'])
+                    && ! auth()->user()->hasAnyRole($item['roles'])
+                )
                 <a
                     href="{{ route($item['route']) }}"
                     @class([
@@ -53,6 +58,28 @@
             @endif
         @endforeach
     </nav>
+
+    <div class="border-t border-slate-200 p-4">
+        <div class="mb-3">
+            <p class="truncate text-sm font-medium text-slate-900">
+                {{ auth()->user()->name }}
+            </p>
+
+            <p class="truncate text-xs text-slate-500">
+                {{ auth()->user()->email }}
+            </p>
+        </div>
+
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+
+            <button type="submit"
+                class="group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50">
+                <x-admin.icon name="logout" class="size-5" />
+                <span>Đăng xuất</span>
+            </button>
+        </form>
+    </div>
 </aside>
 
 {{-- Mobile bottom nav --}}

@@ -13,9 +13,9 @@ class AuthorSeeder extends Seeder
     public function run(): void
     {
         $authors = [
-            'Chip Huyen',
-            'Trí Hạ',
-            'Yên',
+            'Lam Thanh',
+            'Phạm Lữ Ân',
+            'Hạ Yên',
             'Ngọc San',
         ];
 
