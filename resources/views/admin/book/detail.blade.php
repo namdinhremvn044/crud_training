@@ -3,10 +3,14 @@
 @section('title', $title)
 @section('header', $header)
 
-@section('header-actions') <div class="flex items-center gap-3"> <a href="{{ route('admin.book.list') }}"
+@section('header-actions') 
+    <div class="flex items-center gap-3"> 
+        <a href="{{ route('admin.book.list') }}"
             class="inline-flex items-center rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">
-            ← Quay lại </a>
+            ← Quay lại 
+        </a>
 
+        @role('admin')
         <a href="{{ route('admin.book.edit', $book['id']) }}"
             class="inline-flex items-center rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600">
             ✏️ Chỉnh sửa
@@ -21,6 +25,7 @@
                 🗑️ Xóa
             </button>
         </form>
+        @endrole
     </div>
 
 

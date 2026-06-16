@@ -63,7 +63,9 @@
                             <th class="text-left">Giá</th>
                             <th class="text-left">Trạng thái</th>
                             <th class="text-left">Ngày xuất bản</th>
+                            @role('admin')
                             <th class="text-left">Hành động</th>
+                            @endrole
                         </tr>
                     </thead>
                     <tbody>
@@ -89,6 +91,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $book['publish_date'] }}</td>
+                                @role('admin')
                                 <td>
                                     <div class="d-flex gap-2">
                                         <a href="{{ route('admin.book.edit', $book['id']) }}"
@@ -108,6 +111,7 @@
                                         </form>
                                     </div>
                                 </td>
+                                @endrole
                             </tr>
                         @endforeach
                     </tbody>
